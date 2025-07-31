@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Lachu ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Pacifico', cursive;
+      background: #ffe6f0;
+      overflow: hidden;
+      text-align: center;
+      color: #c71585;
+    }
+
+    h1 {
+      margin-top: 50px;
+      font-size: 3em;
+    }
+
+    p {
+      font-size: 1.2em;
+    }
+
+    .buttons {
+      margin-top: 50px;
+    }
+
+    .btn {
+      background: #ff66b2;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 1.2em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #e055a1;
+    }
+
+    #confetti-canvas, #heart-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .hidden-message {
+      display: none;
+      margin-top: 30px;
+      padding: 20px;
+      font-size: 1.1em;
+      background-color: #fff0f5;
+      border-radius: 15px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    img.memory-photo {
+      margin-top: 20px;
+      max-width: 90%;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #aaa;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+  <canvas id="heart-canvas"></canvas>
+  <h1>Happy Birthday Lachu ❤️</h1>
+  <p>You make my world beautiful, just like today.</p>
+  <div class="buttons">
+    <button class="btn" onclick="showMessage('gift')">🎁 Open Your Gift</button>
+    <button class="btn" onclick="showMessage('letter')">💌 Read My Letter</button>
+    <button class="btn" onclick="showMessage('memory')">🌟 Memory Lane</button>
+    <button class="btn" onclick="unlockSecret()">🔒 Secret Message</button>
+  </div>
+
+  <div id="gift" class="hidden-message">
+    <h2>🎁 Your Gift:</h2>
+    <p>Here's to many more memories, love, and laughter. You deserve all the happiness in the world ❤️</p>
+  </div>
+
+  <div id="letter" class="hidden-message">
+    <h2>💌 My Letter:</h2>
+    <p>Dear Lachu,<br><br>
+    On this special day, I just want to say thank you for being the sunshine in my life. Your smile lights up my world, your laugh fills my heart, and your presence makes everything better. I'm lucky to walk this life with you.<br><br>
+    Happy Birthday, my love. I’m always here for you. ❤️<br><br>
+    Yours always,<br>
+    [Your Name]</p>
+  </div>
+
+  <div id="memory" class="hidden-message">
+    <h2>🌟 Memory Lane:</h2>
+    <p>Replace this image with your own sweet memories! ✨</p>
+    <img src="photos/memory1.jpg" alt="Memory Placeholder" class="memory-photo">
+    <!-- Replace 'photos/memory1.jpg' with your actual image path -->
+  </div>
+
+  <div id="secret" class="hidden-message">
+    <h2>🔐 Secret Message</h2>
+    <p>Shhh... you found it 😉<br><br>
+    I’ve hidden this just for you. Every moment with you feels like magic, and every day I get to love you is a gift I’ll never take for granted.<br><br>
+    Happy Birthday, my forever person. 💖</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    function showMessage(id) {
+      document.querySelectorAll('.hidden-message').forEach(div => div.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+      confetti();
+    }
+
+    function unlockSecret() {
+      const password = prompt("Enter the secret password (Hint: it's your nickname 💖)");
+      if (password && password.toLowerCase() === "lachu") {
+        showMessage('secret');
+        launchHearts();
+      } else {
+        alert("Oops! That's not it. Try again later 😊");
+      }
+    }
+
+    function confetti() {
+      const duration = 1 * 1000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confettiLib({
+          particleCount: 4,
+          angle: 60,
+          spread: 100,
+          origin: { x: 0 }
+        });
+        confettiLib({
+          particleCount: 4,
+          angle: 120,
+          spread: 100,
+          origin: { x: 1 }
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    const confettiLib = window.confetti;
+
+    // Heart animation
+    function launchHearts() {
+      const canvas = document.getElementById('heart-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      let hearts = [];
+
+      for (let i = 0; i < 30; i++) {
+        hearts.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 20 + 10,
+          speed: Math.random() * 2 + 1,
+          opacity: Math.random() * 0.5 + 0.5
+        });
+      }
+
+      function drawHeart(x, y, size, opacity) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(size / 50, size / 50);
+        ctx.beginPath();
+        ctx.globalAlpha = opacity;
+        ctx.moveTo(25, 25);
+        ctx.bezierCurveTo(25, 0, 0, 0, 0, 25);
+        ctx.bezierCurveTo(0, 55, 25, 70, 25, 90);
+        ctx.bezierCurveTo(25, 70, 50, 55, 50, 25);
+        ctx.bezierCurveTo(50, 0, 25, 0, 25, 25);
+        ctx.fillStyle = '#ff69b4';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function animateHearts() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < hearts.length; i++) {
+          let heart = hearts[i];
+          drawHeart(heart.x, heart.y, heart.size, heart.opacity);
+          heart.y -= heart.speed;
+          if (heart.y < -100) heart.y = canvas.height + 100;
+        }
+        requestAnimationFrame(animateHearts);
+      }
+      animateHearts();
+    }
+  </script>
+</body>
+</html>
